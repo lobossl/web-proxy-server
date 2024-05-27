@@ -4,10 +4,10 @@
 */
 const net = require("net");
 
-//default proxy server port 80
+//this is the default proxy server port 80 for your hub
 const PROXY_SERVER_PORT = 80;
 //add so many backend servers you want "hostname:port"
-const SERVERS = ["localhost:3331","127.0.0.1:8080","10.0.0.1:80"]; //Examples
+const SERVERS = ["web.server1.com:80","web.server2.com:80","web.server3.com:80","ssl.server4.com:443"]; //Examples..
 
 let CURRENT_SERVER = 0;
 
