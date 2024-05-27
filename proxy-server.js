@@ -1,6 +1,7 @@
 /*
         Coded by LoboSSL 2024
         version 1.0
+        Web Proxy Server, hiden your web servers ;)
 */
 const net = require("net");
 
