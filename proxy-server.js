@@ -4,8 +4,8 @@ const net = require("net");
 //set port to proxy server
 const PROXY_SERVER_PORT = 80;
 
-//add servers by adding "hostname:port"
-const SERVERS = ["localhost:3331","localhost:3332","localhost:3333"];
+//add web servers by adding "hostname:port" (example: http://10.0.0.1:80/ = 10.0.0.1:80)
+const SERVERS = ["localhost:3331","127.0.0.1:8080","10.0.0.1:80"];
 
 //starting at index 0
 let CURRENT_SERVER = 0;
