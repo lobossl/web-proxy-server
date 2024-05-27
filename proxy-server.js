@@ -6,8 +6,8 @@ const net = require("net");
 
 //default proxy server port 80
 const PROXY_SERVER_PORT = 80;
-//add backend server "hostname:port"
-const SERVERS = ["localhost:3331","127.0.0.1:8080","10.0.0.1:80"];
+//add so many backend servers you want "hostname:port"
+const SERVERS = ["localhost:3331","127.0.0.1:8080","10.0.0.1:80"]; //Examples
 
 let CURRENT_SERVER = 0;
 
