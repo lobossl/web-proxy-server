@@ -1,7 +1,11 @@
 /*
         Coded by LoboSSL 2024
         version 1.0
-        Web Proxy Server, hide your web servers ;)
+
+        [ABOUT]
+        Simple web server proxy, you can hide all your servers behind this server.
+        Make sure this server is well protected by ddos protection, and great network connection.
+        This will act as the HUB of your webservers, and will hide your real backend server ip.
 */
 const net = require("net");
 
