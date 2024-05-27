@@ -1,13 +1,14 @@
-//load net module
+/*
+        Coded by LoboSSL 2024
+        version 1.0
+*/
 const net = require("net");
 
-//set port to proxy server
+//default proxy server port 80
 const PROXY_SERVER_PORT = 80;
-
-//add web servers by adding "hostname:port" (example: http://10.0.0.1:80/ = 10.0.0.1:80)
+//add backend server "hostname:port"
 const SERVERS = ["localhost:3331","127.0.0.1:8080","10.0.0.1:80"];
 
-//starting at index 0
 let CURRENT_SERVER = 0;
 
 const server = net.createServer((clientSocket) =>
@@ -17,7 +18,6 @@ const server = net.createServer((clientSocket) =>
 
 function handleRequest(clientSocket)
 {
-        //split hostname:port
         const [host, port] = SERVERS[CURRENT_SERVER].split(":");
 
         const serverSocket = net.connect(port,host,() =>
