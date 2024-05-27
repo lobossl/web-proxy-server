@@ -1,51 +1,57 @@
-/*
-        Simple Proxy Server
+//load net module
+const net = require("net");
 
-        [Coded by LoboSSL 2024]
+//set port to proxy server
+const PROXY_SERVER_PORT = 80;
 
-        - Added Multiple Servers, if server is down try next in list [SERVERS].
-*/
-let express = require("express");
-let request = require("request");
+//add servers by adding "hostname:port"
+const SERVERS = ["localhost:3331","localhost:3332","localhost:3333"];
 
-let app = express();
+//starting at index 0
+let CURRENT_SERVER = 0;
 
-let FAKE_SERVER_PORT = 80;
-
-let SERVERS = ["http://localhost:4441","http://localhost:4442","http://localhost:3331"]; //Add servers
-
-let CURRENT_SERVER = 0
-
-app.all("*",(req,res) =>
+const server = net.createServer((clientSocket) =>
 {
-        con(req,res);
+        handleRequest(clientSocket);
 });
 
-function con(req,res)
+function handleRequest(clientSocket)
 {
-        request(SERVERS[CURRENT_SERVER] + req.url,(error,response,body) =>
+        //split hostname:port
+        const [host, port] = SERVERS[CURRENT_SERVER].split(":");
+
+        const serverSocket = net.connect(port,host,() =>
         {
-                if(!error && response.statusCode === 200)
+                clientSocket.pipe(serverSocket);
+                serverSocket.pipe(clientSocket);
+        });
+
+        serverSocket.on("error",() =>
+        {
+                CURRENT_SERVER = (CURRENT_SERVER + 1) % SERVERS.length;
+
+                if(CURRENT_SERVER === 0)
                 {
-                        res.send(body);
+                        clientSocket.end("unable to find a server to connect to right now, please try again later");
                 }
                 else
                 {
-                        if(CURRENT_SERVER == SERVERS.length)
-                        {
-                                CURRENT_SERVER = 0
-                        }
-                        else
-                        {
-                                CURRENT_SERVER += 1
-
-                                con(req,res);
-                        }
+                        handleRequest(clientSocket);
                 }
+        });
+
+        clientSocket.on("error",() =>
+        {
+                serverSocket.end();
+        });
+
+        clientSocket.on("end",() =>
+        {
+                serverSocket.end();
         });
 }
 
-app.listen(FAKE_SERVER_PORT,() =>
+server.listen(PROXY_SERVER_PORT,() =>
 {
-        console.log("Started Proxy Server On Port:",FAKE_SERVER_PORT);
+        console.log("Started Proxy Server On Port:", PROXY_SERVER_PORT);
 });
